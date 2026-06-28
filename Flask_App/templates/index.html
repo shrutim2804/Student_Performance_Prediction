@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Performance Predictor</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #0a2e1e 0%, #0d3d2a 40%, #0a2840 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 30px 20px;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 660px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 28px;
+        }
+
+        .header h1 {
+            color: #e0fff5;
+            font-size: 2rem;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+        }
+
+        .header p {
+            color: rgba(255,255,255,0.4);
+            font-size: 0.9rem;
+            margin-top: 6px;
+        }
+
+        .glass-card {
+            background: rgba(255,255,255,0.06);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255,255,255,0.12);
+            border-radius: 24px;
+            padding: 36px;
+        }
+
+        .section-title {
+            color: #2dd4aa;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1.4px;
+            margin: 24px 0 14px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid rgba(45,212,170,0.2);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .section-title:first-of-type { margin-top: 0; }
+
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 14px;
+        }
+
+        .form-group { margin-bottom: 14px; }
+
+        label {
+            display: block;
+            color: rgba(255,255,255,0.5);
+            font-size: 0.8rem;
+            margin-bottom: 6px;
+            font-weight: 500;
+        }
+
+        input[type="number"], select {
+            width: 100%;
+            padding: 11px 14px;
+            background: rgba(255,255,255,0.06);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 10px;
+            color: #e0fff5;
+            font-size: 0.92rem;
+            outline: none;
+            transition: all 0.3s;
+            font-family: 'Segoe UI', sans-serif;
+        }
+
+        input[type="number"]:focus, select:focus {
+            border-color: rgba(45,212,170,0.5);
+            background: rgba(45,212,170,0.06);
+        }
+
+        select option { background: #0d3d2a; color: #e0fff5; }
+
+        .checkbox-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: rgba(255,255,255,0.04);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 10px;
+            padding: 11px 14px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .checkbox-item:hover {
+            background: rgba(45,212,170,0.08);
+            border-color: rgba(45,212,170,0.25);
+        }
+
+        .checkbox-item input[type="checkbox"] {
+            accent-color: #2dd4aa;
+            width: 15px;
+            height: 15px;
+            cursor: pointer;
+        }
+
+        .checkbox-item label {
+            color: rgba(255,255,255,0.55);
+            margin: 0;
+            cursor: pointer;
+            font-size: 0.85rem;
+        }
+
+        .predict-btn {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(135deg, #0d9e72, #0a7a58);
+            border: none;
+            border-radius: 12px;
+            color: #fff;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 28px;
+            transition: all 0.3s;
+            letter-spacing: 0.3px;
+            font-family: 'Segoe UI', sans-serif;
+        }
+
+        .predict-btn:hover {
+            background: linear-gradient(135deg, #0fb880, #0d9e72);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(13,158,114,0.35);
+        }
+
+        .hint {
+            text-align: center;
+            color: rgba(255,255,255,0.2);
+            font-size: 0.75rem;
+            margin-top: 16px;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <h1>🎓 Student Performance Predictor</h1>
+        <p>Powered by XGBoost Machine Learning Model</p>
+    </div>
+
+    <div class="glass-card">
+        <form action="/predict" method="POST">
+
+            <div class="section-title">📚 Academic Information</div>
+            <div class="grid-2">
+                <div class="form-group">
+                    <label>Current Percentage (0–100)</label>
+                    <input type="number" name="gpa" min="0" max="100" step="0.1" placeholder="e.g. 85" required>
+                </div>
+                <div class="form-group">
+                    <label>Study Hours per Week</label>
+                    <input type="number" name="study_hours" min="0" max="20" step="0.5" placeholder="e.g. 14" required>
+                </div>
+            </div>
+
+            <div class="section-title">🏫 Attendance & Personal</div>
+            <div class="grid-2">
+                <div class="form-group">
+                    <label>Number of Classes Missed</label>
+                    <input type="number" name="absences" min="0" max="30" placeholder="e.g. 4" required>
+                </div>
+                <div class="form-group">
+                    <label>Student Age</label>
+                    <input type="number" name="age" min="15" max="18" placeholder="e.g. 17" required>
+                </div>
+            </div>
+
+            <div class="section-title">👨‍👩‍👧 Family Background</div>
+            <div class="grid-2">
+                <div class="form-group">
+                    <label>Parental Education Level</label>
+                    <select name="parental_education">
+                        <option value="0">None</option>
+                        <option value="1">High School</option>
+                        <option value="2">Some College</option>
+                        <option value="3">Bachelor's Degree</option>
+                        <option value="4">Higher Education</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Parental Support Level</label>
+                    <select name="parental_support">
+                        <option value="0">None</option>
+                        <option value="1">Low</option>
+                        <option value="2">Moderate</option>
+                        <option value="3">High</option>
+                        <option value="4">Very High</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="section-title">🌍 Other Details</div>
+            <div class="grid-2">
+                <div class="form-group">
+                    <label>Ethnicity Group</label>
+                    <select name="ethnicity">
+                        <option value="0">Group A</option>
+                        <option value="1">Group B</option>
+                        <option value="2">Group C</option>
+                        <option value="3">Group D</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Private Tutoring</label>
+                    <select name="tutoring">
+                        <option value="0">No</option>
+                        <option value="1">Yes</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="section-title">🏆 Extracurricular Activities</div>
+            <div class="checkbox-grid">
+                <div class="checkbox-item">
+                    <input type="checkbox" name="extracurricular" value="1" id="extra">
+                    <label for="extra">Extracurricular</label>
+                </div>
+                <div class="checkbox-item">
+                    <input type="checkbox" name="sports" value="1" id="sports">
+                    <label for="sports">Sports</label>
+                </div>
+                <div class="checkbox-item">
+                    <input type="checkbox" name="music" value="1" id="music">
+                    <label for="music">Music</label>
+                </div>
+                <div class="checkbox-item">
+                    <input type="checkbox" name="volunteering" value="1" id="volunteer">
+                    <label for="volunteer">Volunteering</label>
+                </div>
+            </div>
+
+            <button type="submit" class="predict-btn">🔍 Predict My Grade</button>
+            <p class="hint">All inputs are processed locally — no data is stored</p>
+        </form>
+    </div>
+</div>
+</body>
+</html>

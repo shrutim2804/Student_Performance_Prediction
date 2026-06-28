@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prediction Result</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #0a2e1e 0%, #0d3d2a 40%, #0a2840 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 30px 20px;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 580px;
+        }
+
+        .glass-card {
+            background: rgba(255,255,255,0.06);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255,255,255,0.12);
+            border-radius: 24px;
+            padding: 36px;
+        }
+
+        .page-title {
+            text-align: center;
+            color: #e0fff5;
+            font-size: 1.4rem;
+            font-weight: 600;
+            margin-bottom: 24px;
+            letter-spacing: -0.3px;
+        }
+
+        /* Grade Hero Box */
+        .grade-hero {
+            background: linear-gradient(135deg, #0d9e72, #0a6e50);
+            border-radius: 20px;
+            padding: 32px 20px;
+            text-align: center;
+            margin-bottom: 20px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .grade-hero::before {
+            content: '';
+            position: absolute;
+            top: -40px; right: -40px;
+            width: 120px; height: 120px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 50%;
+        }
+
+        .grade-hero::after {
+            content: '';
+            position: absolute;
+            bottom: -30px; left: -30px;
+            width: 90px; height: 90px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 50%;
+        }
+
+        .grade-emoji { font-size: 2.2rem; margin-bottom: 6px; }
+        .grade-letter {
+            font-size: 5.5rem;
+            font-weight: 800;
+            color: #fff;
+            line-height: 1;
+            text-shadow: 0 4px 20px rgba(0,0,0,0.2);
+        }
+
+        .grade-label {
+            color: rgba(255,255,255,0.7);
+            font-size: 0.85rem;
+            margin-top: 6px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .confidence-row {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 14px;
+        }
+
+        .confidence-badge {
+            background: rgba(255,255,255,0.15);
+            border: 1px solid rgba(255,255,255,0.25);
+            border-radius: 20px;
+            padding: 5px 16px;
+            color: #fff;
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+
+        /* Performance message */
+        .performance-msg {
+            background: rgba(45,212,170,0.08);
+            border: 1px solid rgba(45,212,170,0.2);
+            border-radius: 14px;
+            padding: 16px 20px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+        }
+
+        .perf-icon { font-size: 1.5rem; flex-shrink: 0; margin-top: 2px; }
+
+        .perf-text h3 {
+            color: #2dd4aa;
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+
+        .perf-text p {
+            color: rgba(255,255,255,0.5);
+            font-size: 0.82rem;
+            line-height: 1.5;
+        }
+
+        /* Confidence Bar */
+        .conf-bar-section {
+            background: rgba(255,255,255,0.04);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 14px;
+            padding: 16px 20px;
+            margin-bottom: 20px;
+        }
+
+        .conf-bar-label {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+
+        .conf-bar-label span:first-child {
+            color: rgba(255,255,255,0.45);
+            font-size: 0.8rem;
+        }
+
+        .conf-bar-label span:last-child {
+            color: #2dd4aa;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .conf-bar-bg {
+            background: rgba(255,255,255,0.08);
+            border-radius: 6px;
+            height: 8px;
+            overflow: hidden;
+        }
+
+        .conf-bar-fill {
+            height: 8px;
+            border-radius: 6px;
+            background: linear-gradient(90deg, #0d9e72, #2dd4aa);
+            transition: width 1s ease;
+        }
+
+        /* Details Section */
+        .details-section {
+            background: rgba(255,255,255,0.04);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 14px;
+            padding: 18px 20px;
+            margin-bottom: 20px;
+        }
+
+        .details-title {
+            color: #2dd4aa;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1.2px;
+            margin-bottom: 14px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid rgba(45,212,170,0.15);
+        }
+
+        .detail-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .detail-row:last-child { border-bottom: none; }
+
+        .detail-key {
+            color: rgba(255,255,255,0.4);
+            font-size: 0.83rem;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .detail-val {
+            color: #e0fff5;
+            font-size: 0.83rem;
+            font-weight: 600;
+        }
+
+        /* Tip box */
+        .tip-box {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.07);
+            border-radius: 14px;
+            padding: 16px 20px;
+            margin-bottom: 24px;
+        }
+
+        .tip-title {
+            color: rgba(255,255,255,0.35);
+            font-size: 0.72rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 10px;
+        }
+
+        .tip-item {
+            color: rgba(255,255,255,0.4);
+            font-size: 0.8rem;
+            padding: 4px 0;
+            line-height: 1.5;
+        }
+
+        .tip-item span { color: #2dd4aa; }
+
+        /* Back button */
+        .back-btn {
+            display: block;
+            text-align: center;
+            padding: 14px;
+            background: linear-gradient(135deg, #0d9e72, #0a7a58);
+            border-radius: 12px;
+            color: #fff;
+            font-size: 0.95rem;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s;
+            letter-spacing: 0.3px;
+        }
+
+        .back-btn:hover {
+            background: linear-gradient(135deg, #0fb880, #0d9e72);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(13,158,114,0.35);
+        }
+
+        .footer-note {
+            text-align: center;
+            color: rgba(255,255,255,0.18);
+            font-size: 0.73rem;
+            margin-top: 16px;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="glass-card">
+
+        <div class="page-title">🎓 Prediction Result</div>
+
+        <!-- Grade Hero -->
+        <div class="grade-hero">
+            <div class="grade-emoji">{{ emoji }}</div>
+            <div class="grade-letter">{{ grade }}</div>
+            <div class="grade-label">Predicted Academic Grade</div>
+            <div class="confidence-row">
+                <div class="confidence-badge">{{ confidence }}% Confidence</div>
+            </div>
+        </div>
+
+        <!-- Performance Message -->
+        <div class="performance-msg">
+            {% if grade == 'A' %}
+                <div class="perf-icon">🌟</div>
+                <div class="perf-text">
+                    <h3>Outstanding Performance!</h3>
+                    <p>This student is predicted to achieve excellent academic results. Strong study habits and good parental support are key contributors. Keep maintaining this momentum!</p>
+                </div>
+            {% elif grade == 'B' %}
+                <div class="perf-icon">👍</div>
+                <div class="perf-text">
+                    <h3>Good Performance!</h3>
+                    <p>This student is on a solid academic track. With a little more focus on study hours and reducing absences, they could push towards an A grade.</p>
+                </div>
+            {% elif grade == 'C' %}
+                <div class="perf-icon">📈</div>
+                <div class="perf-text">
+                    <h3>Average Performance — Room to Grow</h3>
+                    <p>There's potential here! Increasing weekly study time, attending more classes, and seeking tutoring support can significantly boost this student's grade.</p>
+                </div>
+            {% elif grade == 'D' %}
+                <div class="perf-icon">⚠️</div>
+                <div class="perf-text">
+                    <h3>Below Average — Action Needed</h3>
+                    <p>This student needs immediate academic support. Reducing absences and increasing study hours along with parental involvement can help turn things around quickly.</p>
+                </div>
+            {% else %}
+                <div class="perf-icon">🆘</div>
+                <div class="perf-text">
+                    <h3>Critical — Urgent Intervention Required</h3>
+                    <p>This student is at serious academic risk. We strongly recommend enrolling in tutoring, improving attendance, and seeking guidance from a school counselor immediately.</p>
+                </div>
+            {% endif %}
+        </div>
+
+        <!-- Confidence Bar -->
+        <div class="conf-bar-section">
+            <div class="conf-bar-label">
+                <span>Model Confidence</span>
+                <span>{{ confidence }}%</span>
+            </div>
+            <div class="conf-bar-bg">
+                <div class="conf-bar-fill" style="width: {{ confidence }}%;"></div>
+            </div>
+        </div>
+
+        <!-- Input Details -->
+        <div class="details-section">
+            <div class="details-title">📋 Submitted Student Details</div>
+            <div class="detail-row">
+                <div class="detail-key">📊 Academic Percentage</div>
+                <div class="detail-val">{{ form_data.get('gpa') }}%</div>
+            </div>
+            <div class="detail-row">
+                <div class="detail-key">📖 Study Hours / Week</div>
+                <div class="detail-val">{{ form_data.get('study_hours') }} hrs</div>
+            </div>
+            <div class="detail-row">
+                <div class="detail-key">🏫 Classes Missed</div>
+                <div class="detail-val">{{ form_data.get('absences') }} classes</div>
+            </div>
+            <div class="detail-row">
+                <div class="detail-key">🎂 Age</div>
+                <div class="detail-val">{{ form_data.get('age') }} years</div>
+            </div>
+            <div class="detail-row">
+                <div class="detail-key">🧑‍🏫 Private Tutoring</div>
+                <div class="detail-val">{{ 'Yes ✅' if form_data.get('tutoring') == '1' else 'No ❌' }}</div>
+            </div>
+            <div class="detail-row">
+                <div class="detail-key">❤️ Parental Support</div>
+                <div class="detail-val">{{ form_data.get('parental_support') }} / 4</div>
+            </div>
+        </div>
+
+        <!-- Tips Box -->
+        <div class="tip-box">
+            <div class="tip-title">💡 Smart Tips to Improve Grade</div>
+            {% if grade in ['C', 'D', 'F'] %}
+                <div class="tip-item">→ <span>Study more:</span> Aim for at least 15+ hours of focused study per week</div>
+                <div class="tip-item">→ <span>Attend classes:</span> Every missed class costs valuable learning time</div>
+                <div class="tip-item">→ <span>Get tutoring:</span> One-on-one support can dramatically boost scores</div>
+                <div class="tip-item">→ <span>Parental involvement:</span> Regular check-ins at home improve motivation</div>
+            {% else %}
+                <div class="tip-item">→ <span>Keep it up:</span> Consistency is the key to maintaining high grades</div>
+                <div class="tip-item">→ <span>Stay active:</span> Extracurricular activities improve cognitive skills</div>
+                <div class="tip-item">→ <span>Don't skip:</span> Perfect attendance keeps you ahead of the curve</div>
+            {% endif %}
+        </div>
+
+        <a href="/" class="back-btn">🔄 Predict Another Student</a>
+        <p class="footer-note">Prediction powered by XGBoost · Student Performance Dataset · Made by-SHRUTI MISHRA</p>
+
+    </div>
+</div>
+</body>
+</html>
