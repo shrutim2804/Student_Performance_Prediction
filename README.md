@@ -90,8 +90,10 @@ The project follows the complete Machine Learning lifecycle:
 **Best Model:** XGBoost — saved as `Model/xgboost.pkl`
 
 ---
-
+<a name="-tech-stack"></a>
 ## 🛠️ Tech Stack
+
+
 
 | Category | Tools |
 |---|---|
@@ -151,7 +153,10 @@ Student_Performance_Prediction/
 
 ---
 
+
+<a name="-how-to-run-locally"></a>
 ## ▶️ How to Run Locally
+
 
 ### 1. Clone the repository
 ```bash
@@ -201,7 +206,10 @@ http://127.0.0.1:5000
 
 ---
 
+
+<a name="-author"></a>
 ## 👩‍💻 Author
+
 
 **Shruti Mishra**
 B.Tech CSE
