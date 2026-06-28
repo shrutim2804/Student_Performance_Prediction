@@ -6,7 +6,7 @@
 ![Status](https://img.shields.io/badge/Status-Live-brightgreen?style=flat)
 ![License](https://img.shields.io/badge/License-MIT-green?style=flat)
 
-> A Machine Learning web application that predicts a student's academic grade (A/B/C/D/F) based on key academic and behavioral indicators.
+> A Machine Learning web application that predicts a student's performance based on key academic and behavioral indicators.
 
 🔗 **Live Demo:** [https://student-performance-prediction-puuj.onrender.com](https://student-performance-prediction-puuj.onrender.com)
 
