@@ -7,21 +7,22 @@
 ![License](https://img.shields.io/badge/License-MIT-green?style=flat)
 
 > A Machine Learning web application that predicts a student's academic grade (A/B/C/D/F) based on key academic and behavioral indicators.
+
 🔗 **Live Demo:** [https://student-performance-prediction-puuj.onrender.com](https://student-performance-prediction-puuj.onrender.com)
 
 ---
 
 ## 📌 Table of Contents
-- [Objective](#objective)
-- [Dataset](#dataset)
-- [ML Lifecycle](#ml-lifecycle)
-- [Models Used](#models-used)
-- [Tech Stack](#tech-stack)
-- [Project Structure](#project-structure)
-- [How to Run Locally](#how-to-run-locally)
-- [Screenshots](#screenshots)
-- [Results](#results)
-- [Author](#author)
+
+- [Objective](#-objective)
+- [Dataset](#-dataset)
+- [ML Lifecycle](#-ml-lifecycle)
+- [Models Used](#-models-used)
+- [Tech Stack](#-tech-stack)
+- [Project Structure](#-project-structure)
+- [How to Run Locally](#-how-to-run-locally)
+- [Results](#-results)
+- [Author](#-author)
 
 ---
 
@@ -102,7 +103,6 @@ The project follows the complete Machine Learning lifecycle:
 | **Version Control** | Git & GitHub |
 
 ---
-## 📁 Project Structure
 
 ## 📁 Project Structure
 
@@ -147,6 +147,7 @@ Student_Performance_Prediction/
 ├── .gitignore                        # Ignored files
 └── README.md                         # Project documentation
 ```
+
 ---
 
 ## ▶️ How to Run Locally
@@ -173,6 +174,7 @@ pip install -r requirements.txt
 ```bash
 cd Flask_App
 python app.py
+
 ```
 
 ### 5. Open in browser
@@ -183,6 +185,7 @@ http://127.0.0.1:5000
 ## 📊 Results
 
 ### Model Comparison
+
 | Model | Accuracy | F1 Score | ROC-AUC |
 |---|---|---|---|
 | Logistic Regression | ~82% | ~81% | ~91% |
@@ -200,12 +203,15 @@ http://127.0.0.1:5000
 ## 👩‍💻 Author
 
 **Shruti Mishra**
-B.Tech CSE 
+B.Tech CSE
 
-🔗 LinkedIn: [Shruti Mishra](www.linkedin.com/in/shruti-mishra-5020s)
+🔗 LinkedIn: [Shruti Mishra](https://www.linkedin.com/in/shruti-mishra-5020s)
 🐙 GitHub: [github.com/shrutim2804](https://github.com/shrutim2804)
 
 ---
 
 ## 📄 License
+
 This project is for academic purposes.
+```
+
