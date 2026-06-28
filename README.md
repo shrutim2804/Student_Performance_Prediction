@@ -23,6 +23,7 @@
 - [How to Run Locally](#-how-to-run-locally)
 - [Results](#-results)
 - [Author](#-author)
+- [License](#-license)
 
 ---
 
