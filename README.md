@@ -211,8 +211,8 @@ http://127.0.0.1:5000
 ## 👩‍💻 Author
 
 
-**Shruti Mishra**
-B.Tech CSE
+**Shruti Mishra** ||
+B.Tech CSE || Student 
 
 🔗 LinkedIn: [Shruti Mishra](https://www.linkedin.com/in/shruti-mishra-5020s)
 🐙 GitHub: [github.com/shrutim2804](https://github.com/shrutim2804)
