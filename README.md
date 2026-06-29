@@ -222,5 +222,4 @@ B.Tech CSE || Student
 ## 📄 License
 
 This project is for academic purposes.
-```
 
